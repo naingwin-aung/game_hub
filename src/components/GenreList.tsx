@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Heading,
   HStack,
   Image,
   List,
@@ -21,35 +22,42 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
 
   if (error) return null;
 
-  if (isLoading)
-    return skeletons.map((skeleton) => (
-      <Box key={skeleton} paddingBottom="10px" borderRadius="10px">
-        <Skeleton height="48px" />
-      </Box>
-    ));
-
   return (
-    <List>
-      {data.map((genre) => (
-        <ListItem key={genre.id} paddingY="5px">
-          <HStack>
-            <Image
-              boxSize="32px"
-              borderRadius={8}
-              src={getCroppedImageUrl(genre.image_background)}
-            />
-            <Button
-              fontWeight={genre.id == selectedGenre?.id ? 'bold' : 'normal'}
-              fontSize="lg"
-              onClick={() => onSelectGenre(genre)}
-              variant="link"
-            >
-              {genre.name}
-            </Button>
-          </HStack>
-        </ListItem>
-      ))}
-    </List>
+    <>
+      <Heading marginTop={5} marginBottom={3}>Genres</Heading>
+
+      {isLoading &&
+        skeletons.map((skeleton) => (
+          <Box key={skeleton} paddingBottom="10px" borderRadius="10px">
+            <Skeleton height="48px" />
+          </Box>
+        ))}
+
+      <List>
+        {data.map((genre) => (
+          <ListItem key={genre.id} paddingY="5px">
+            <HStack>
+              <Image
+                objectFit="cover"
+                boxSize="32px"
+                borderRadius={8}
+                src={getCroppedImageUrl(genre.image_background)}
+              />
+              <Button
+                whiteSpace="normal"
+                textAlign="left"
+                fontWeight={genre.id == selectedGenre?.id ? "bold" : "normal"}
+                fontSize="lg"
+                onClick={() => onSelectGenre(genre)}
+                variant="link"
+              >
+                {genre.name}
+              </Button>
+            </HStack>
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 };
 
